@@ -24,13 +24,13 @@
 #  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 #  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.20)
 
 project(NE10 C CXX ASM)
 
 option(NE10_BUILD_SHARED "Build NE10 shared libraries" OFF)
 option(NE10_BUILD_STATIC "Build NE10 static libraries" ON)
-option(NE10_BUILD_EXAMPLES "Build NE10 examples" ON)
+option(NE10_BUILD_EXAMPLES "Build NE10 examples" OFF)
 
 #hard float abi
 option(NE10_ARM_HARD_FLOAT "Build NE10 for hard float abi" ON)
@@ -140,8 +140,14 @@ if(ANDROID_PLATFORM)
     ${CMAKE_C_FLAGS}")
 elseif(GNULINUX_PLATFORM)
     if("${NE10_TARGET_ARCH}" STREQUAL "armv7")
-      set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mthumb -march=armv7-a -mfpu=vfp3 -funsafe-math-optimizations")
-      set(CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS} -mthumb -march=armv7-a -mfpu=neon")
+        if (ZYNQ_BAREMETAL_TARGET)
+            message("---Building for ZYNQ baremetal target---")
+            set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mthumb-interwork -mthumb -march=armv7-a -mfpu=vfpv3 -mfloat-abi=hard -mfpu=neon -funsafe-math-optimizations")
+            set(CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS} -mthumb-interwork -mthumb -march=armv7-a  -mfpu=vfpv3 -mfloat-abi=hard -mfpu=neon")
+        else()
+            set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mthumb -march=armv7-a -mfpu=vfp3 -funsafe-math-optimizations")
+            set(CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS} -mthumb -march=armv7-a -mfpu=neon")
+        endif()
       # Turn on asm optimization for Linux on ARM v7.
       set(NE10_ASM_OPTIMIZATION on)
     endif()

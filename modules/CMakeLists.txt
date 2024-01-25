@@ -77,6 +77,10 @@ if(IOS_PLATFORM)
   endfunction()
 endif(IOS_PLATFORM)
 
+if(ZYNQ_BAREMETAL_TARGET)
+    add_definitions(-DZYNQ_BAREMETAL_TARGET)
+endif()
+
 if(NE10_ENABLE_MATH)
     #enable NE10_init_math
     add_definitions(-DNE10_ENABLE_MATH)

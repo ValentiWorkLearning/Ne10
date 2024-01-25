@@ -30,3 +30,58 @@ Find Project Ne10 useful? You can help us justify spending more engineering reso
 
 Want us to help cross-promote your product using Ne10 at developer events? We’re also looking for Ne10 use cases to show at conferences and meetups.
 
+
+## Building for ZYNQ on Windows:
+```shell
+mkdir build && cd build
+cmake -G"Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=../VitisWindows_toolchain.cmake -DBUILD_DEBUG=0 ..
+cmake --build .
+```
+## Some advice for Zynq uses
+Taken from: https://github.com/rubennc91/Ne10_zynq_lib
+
+If you want to make an FFT less than 256 points, maybe you can run the program perfectly, depends on the platform you are implementing.
+But if you have a problem, you may not have enought "heap" memory.
+To avoid this problem it is necessart to change the properties of the linker script. On the  project, right-click and select "Generate linker script". 
+In this part, you can change the reserved memory for the program. Change the "Heap Size", default is 1KB, then change the size in bits that you need (4096000 = 4MB). 
+Arround 4MB is anought to make an FFT of 8192 points. 
+
+With all this, you can run the sample program. 
+
+The sample program has some definitions to test all possibilities that the library has. 
+
+```
+#define NFFT 128
+```
+This define is used to select the number of points for the FFT function.
+
+The following defines are used to select between different FFT configurations. 
+* ```C2C:``` is used to select between differents input types, it is possible real (0) or complex (1). The output is always complex. 
+* ```NEON```: You can select between using the NEON module (1) or not using it (0).
+* ```FFT```: If you need to perform the inverse FFT (Complex inputs, and real outputs), you can modify it with this define. 
+	
+Obiously if you select ```C2C=1``` the inputs are complex and the output complex too, therefore the iFFT is implemented, but the input is complex and the output too. 
+```
+#define C2C 	1	// COMPLEX INPUT AND COMPLEX OUTPUT
+#define NEON	0	// USING NEON BLOCK
+#define FFT	0	// FFT = 0; iFFT = 1;
+```
+The final definition is as follows:
+*```SHOW_RESULTS``` it is used to display the input and output of the FFT test running. 
+*```TEST_SAMPLES``` it is used to select the number of repetitions that the FFT algorithm must execute to obtain the time. 
+```
+#define SHOW_RESULTS 	0
+#define TEST_SAMPLES	1000
+```
+
+## Tips when building
+https://support.xilinx.com/s/question/0D52E00006hpJQcSAM/undefined-reference-to-pow-despite-linking-to-libm?language=en_US
+
+
+## Vitis IDE:
+- Navigate to Application Properties->ARM v7 gcc linker->Inferred Options->Software Platform Inferred Flags
+- Add the following targets:
+```
+-Wl,--start-group,-lxil,-lgcc,-lc,-lm,-lNE10,--end-group
+```
+- Add path to the built artifacts(build/modules) to the linker libary search paths in Vitis
