@@ -34,7 +34,7 @@ Want us to help cross-promote your product using Ne10 at developer events? We’
 ## Building for ZYNQ on Windows:
 ```shell
 mkdir build && cd build
-cmake -G"Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=../VitisWindows_toolchain.cmake -DBUILD_DEBUG=0 ..
+cmake -G"Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE="full_file_path/VitisWindows_toolchain.cmake" -DBUILD_DEBUG=0 ..
 cmake --build .
 ```
 ## Some advice for Zynq uses
