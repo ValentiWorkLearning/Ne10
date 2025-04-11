@@ -178,6 +178,8 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99")
 # Add NE10 library sub-directory.
 add_subdirectory(modules)
 
+target_include_directories(NE10 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/inc)
+
 if(NE10_BUILD_EXAMPLES AND NE10_ENABLE_MATH)
     add_subdirectory(samples)
 endif()
