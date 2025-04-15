@@ -52,7 +52,7 @@
 
 ne10_result_t ne10_fir_init_float (ne10_fir_instance_f32_t * S,
                                    ne10_uint16_t numTaps,
-                                   ne10_float32_t * pCoeffs,
+                                   const ne10_float32_t * pCoeffs,
                                    ne10_float32_t * pState,
                                    ne10_uint32_t blockSize)
 {

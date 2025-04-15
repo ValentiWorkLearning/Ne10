@@ -115,7 +115,7 @@ void ne10_fir_float_c (const ne10_fir_instance_f32_t * S,
 {
 
     ne10_float32_t *pState = S->pState;                 /* State pointer */
-    ne10_float32_t *pCoeffs = S->pCoeffs;               /* Coefficient pointer */
+    const ne10_float32_t *pCoeffs = S->pCoeffs;               /* Coefficient pointer */
     ne10_float32_t *pStateCurnt;                        /* Points to the current sample of the state */
     ne10_float32_t *px, *pb;                            /* Temporary pointers for state and coefficient buffers */
     ne10_uint32_t numTaps = S->numTaps;                 /* Number of filter coefficients in the filter */

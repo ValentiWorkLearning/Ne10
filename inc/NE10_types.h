@@ -358,7 +358,7 @@ typedef struct
 {
     ne10_uint16_t numTaps;    /**< Length of the filter. */
     ne10_float32_t *pState;    /**< Points to the state variable array. The array is of length numTaps+maxBlockSize-1. */
-    ne10_float32_t *pCoeffs;   /**< Points to the coefficient array. The array is of length numTaps. */
+    const ne10_float32_t *pCoeffs;   /**< Points to the coefficient array. The array is of length numTaps. */
 } ne10_fir_instance_f32_t;
 
 /**
