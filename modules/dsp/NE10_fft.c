@@ -363,6 +363,8 @@ ne10_fft_cfg_float32_t ne10_fft_alloc_c2c_float32_neon (ne10_int32_t nfft)
                               + sizeof (ne10_fft_cpx_float32_t) * nfft         /* buffer */
                               + NE10_FFT_BYTE_ALIGNMENT;             /* 64-bit alignment */
 
+    printf("NE10 memory allocation requested size: [%d] bytes \r\n",memneeded);
+
     st = (ne10_fft_cfg_float32_t) NE10_MALLOC (memneeded);
 
     // Bad allocation.
